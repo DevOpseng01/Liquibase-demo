@@ -37,8 +37,8 @@ jobs:
          uses: liquibase/liquibase-github-action@v2
          with:
           operation: 'update'
-          classpath: 'liquibase_demo/'
-          changeLogFile: 'changelog.sql'
+          classpath: 'liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar'
+          changeLogFile: 'liquibase_demo/changelog.sql'
           username: "sa"
           password: "Trilok@786"
           url: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
