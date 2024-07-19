@@ -1,0 +1,37 @@
+name: Liquibase Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  liquibase:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Install Liquibase
+        run: |
+          wget https://github.com/liquibase/liquibase/releases/download/v4.13.0/liquibase-4.13.0.tar.gz
+          tar -xzf liquibase-4.13.0.tar.gz
+          sudo mv liquibase /usr/local/bin/
+
+      - name: Run Liquibase Update
+        env:
+          LIQUIBASE_HOME: /usr/local/bin/liquibase
+          LIQUIBASE_COMMAND: update
+          LIQUIBASE_URL: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
+          LIQUIBASE_USERNAME: "sa"
+          LIQUIBASE_PASSWORD: "Trilok@786"
+          LIQUIBASE_CHANGELOG: 'liquibase_demo/changelog.sql'
+        run: |
+          $LIQUIBASE_HOME/liquibase --url=$LIQUIBASE_URL --username=$LIQUIBASE_USERNAME --password=$LIQUIBASE_PASSWORD --changeLogFile=$LIQUIBASE_CHANGELOG $LIQUIBASE_COMMAND
