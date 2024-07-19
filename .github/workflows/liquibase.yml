@@ -25,13 +25,11 @@ jobs:
           tar -xzf liquibase-4.13.0.tar.gz
           sudo mv liquibase /usr/local/bin/
 
-      - name: Run Liquibase Update
-        env:
-          LIQUIBASE_HOME: /usr/local/bin/liquibase
-          LIQUIBASE_COMMAND: update
-          LIQUIBASE_URL: ${{ secrets.DATABASE_URL }}
-          LIQUIBASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-          LIQUIBASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          LIQUIBASE_CHANGELOG: ${{ secrets.LIQUIBASE_CHANGELOG }}
-        run: |
-          $LIQUIBASE_HOME/liquibase --url=$LIQUIBASE_URL --username=$LIQUIBASE_USERNAME --password=$LIQUIBASE_PASSWORD --changeLogFile=$LIQUIBASE_CHANGELOG $LIQUIBASE_COMMAND
+      - name: Run Liquibase
+        uses: liquibase/github-action@v1
+        with:
+          url: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
+          username: sa
+          password: Trilok@786
+          command: 'update'
+          changelogFile: 'liquibase_demo/changelog.sql'
