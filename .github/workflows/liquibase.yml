@@ -16,7 +16,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          distribution: 'temurin'
+          distribution: 'adopt'
           java-version: '11'
 
       - name: Install Liquibase
@@ -25,11 +25,20 @@ jobs:
           tar -xzf liquibase-4.13.0.tar.gz
           sudo mv liquibase /usr/local/bin/
 
-      - name: Run Liquibase
-        uses: liquibase/github-action@v1
-        with:
+      # - name: Run Liquibase
+      #   uses: liquibase/github-action@v1
+      #   with:
+      #     url: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
+      #     username: sa
+      #     password: Trilok@786
+      #     command: 'update'
+      #     changelogFile: 'liquibase_demo/changelog.sql'
+      -  name: Test Liquibase Action
+         uses: liquibase/liquibase-github-action@v2
+         with:
+          operation: 'update'
+          classpath: 'liquibase_demo/'
+          changeLogFile: 'changelog.sql'
+          username: "sa"
+          password: "Trilok@786"
           url: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
-          username: sa
-          password: Trilok@786
-          command: 'update'
-          changelogFile: 'liquibase_demo/changelog.sql'
