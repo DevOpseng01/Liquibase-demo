@@ -24,6 +24,7 @@ jobs:
         run: |
           wget https://github.com/liquibase/liquibase/releases/download/v4.13.0/liquibase-4.13.0.tar.gz
           tar -xzf liquibase-4.13.0.tar.gz
+          ls -la  # List the extracted contents to check the directory name
           sudo mv liquibase-4.13.0 /usr/local/liquibase
           sudo ln -s /usr/local/liquibase/liquibase /usr/local/bin/liquibase
           echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
