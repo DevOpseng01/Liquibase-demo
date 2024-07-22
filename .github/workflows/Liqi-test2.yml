@@ -36,4 +36,4 @@ jobs:
           LIQUIBASE_CHANGELOG: 'liquibase_demo/changelog.sql'
           JAVA_HOME: $JAVA_HOME
         run: |
-          $LIQUIBASE_HOME/liquibase --classpath=liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar --url=$LIQUIBASE_URL --username=$LIQUIBASE_USERNAME --password=$LIQUIBASE_PASSWORD --changeLogFile=$LIQUIBASE_CHANGELOG $LIQUIBASE_COMMAND
+          /usr/local/bin/liquibase --classpath=liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar --url=$LIQUIBASE_URL --username=$LIQUIBASE_USERNAME --password=$LIQUIBASE_PASSWORD --changeLogFile=$LIQUIBASE_CHANGELOG $LIQUIBASE_COMMAND
