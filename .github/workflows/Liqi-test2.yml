@@ -24,13 +24,14 @@ jobs:
         run: |
           wget https://github.com/liquibase/liquibase/releases/download/v4.13.0/liquibase-4.13.0.tar.gz
           tar -xzf liquibase-4.13.0.tar.gz
-          # Identify the extracted directory or files
+          # List the contents to debug the structure
+          ls -la
           extracted_dir=$(tar -tzf liquibase-4.13.0.tar.gz | head -1 | cut -f1 -d"/")
+          echo "Extracted directory: $extracted_dir"
+          sudo mkdir -p /usr/local/liquibase
           if [ -d "$extracted_dir" ]; then
-            sudo mkdir -p /usr/local/liquibase
             sudo mv $extracted_dir/* /usr/local/liquibase/
           else
-            sudo mkdir -p /usr/local/liquibase
             sudo mv $extracted_dir /usr/local/liquibase/
           fi
           sudo ln -s /usr/local/liquibase/liquibase /usr/local/bin/liquibase
