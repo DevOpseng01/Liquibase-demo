@@ -22,7 +22,7 @@ jobs:
 
       - name: Run Liquibase Update
         env:
-          LIQUIBASE_URL: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
+          LIQUIBASE_URL: "jdbc:sqlserver://52.140.6.193;databaseName=HR;encrypt=true;trustServerCertificate=true;"
           LIQUIBASE_USERNAME: "sa"
           LIQUIBASE_PASSWORD: "Trilok@786"
           LIQUIBASE_CHANGELOG: 'liquibase_demo/changelog.sql'
