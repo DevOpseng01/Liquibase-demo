@@ -24,18 +24,19 @@ jobs:
         run: |
           wget https://github.com/liquibase/liquibase/releases/download/v4.13.0/liquibase-4.13.0.tar.gz
           tar -xzf liquibase-4.13.0.tar.gz
-          sudo mv liquibase /usr/local/bin/
-          echo 'export PATH=$PATH:/usr/local/bin/liquibase' >> ~/.bashrc
+          sudo mv liquibase-4.13.0 /usr/local/liquibase
+          sudo ln -s /usr/local/liquibase/liquibase /usr/local/bin/liquibase
+          echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
           source ~/.bashrc
 
       - name: Run Liquibase Update
         env:
           JAVA_HOME: ${{ steps.setup-java.outputs.path }}
-          LIQUIBASE_HOME: /usr/local/bin/liquibase
+          LIQUIBASE_HOME: /usr/local/liquibase
           LIQUIBASE_COMMAND: update
           LIQUIBASE_URL: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
           LIQUIBASE_USERNAME: "sa"
-          LIQUIBASE_PASSWORD: "Trilok@786"
+          LIQUIBASE_PASSWORD: ${{ secrets.LIQUIBASE_PASSWORD }}
           LIQUIBASE_CHANGELOG: 'liquibase_demo/changelog.sql'
         run: |
           liquibase --classpath=liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar --url=$LIQUIBASE_URL --username=$LIQUIBASE_USERNAME --password=$LIQUIBASE_PASSWORD --changeLogFile=$LIQUIBASE_CHANGELOG $LIQUIBASE_COMMAND
