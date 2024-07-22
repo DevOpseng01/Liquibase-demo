@@ -28,11 +28,11 @@ jobs:
           LIQUIBASE_CHANGELOG: 'Liquibase_demo/changelog.sql'
         run: |
           docker run --rm \
-            -v ${{ github.workspace }}/Liquibase_demo:/liquibase \
+            -v ${{ github.workspace }}/Liquibase_demo:/liquibase_data \
             liquibase/liquibase:latest \
             --url=$LIQUIBASE_URL \
             --username=$LIQUIBASE_USERNAME \
             --password=$LIQUIBASE_PASSWORD \
-            --changeLogFile=/liquibase/$(basename $LIQUIBASE_CHANGELOG) \
-            --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
+            --changeLogFile=/liquibase_data/$(basename $LIQUIBASE_CHANGELOG) \
+            --classpath=/liquibase_data/mssql-jdbc-12.7.0.jre11-preview.jar \
             update
