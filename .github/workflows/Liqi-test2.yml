@@ -20,33 +20,20 @@ jobs:
           java-version: '11'
         id: setup-java
 
-      - name: Install Liquibase
-        run: |
-          wget https://github.com/liquibase/liquibase/releases/download/v4.13.0/liquibase-4.13.0.tar.gz
-          tar -xzf liquibase-4.13.0.tar.gz
-          # List the contents to debug the structure
-          ls -la
-          extracted_dir=$(tar -tzf liquibase-4.13.0.tar.gz | head -1 | cut -f1 -d"/")
-          echo "Extracted directory: $extracted_dir"
-          sudo mkdir -p /usr/local/liquibase
-          if [ -d "$extracted_dir" ]; then
-            sudo mv $extracted_dir/* /usr/local/liquibase/
-          else
-            sudo mv $extracted_dir /usr/local/liquibase/
-          fi
-          sudo ln -s /usr/local/liquibase/liquibase /usr/local/bin/liquibase
-
-      - name: Verify Liquibase Installation
-        run: |
-          /usr/local/bin/liquibase --version
-
       - name: Run Liquibase Update
         env:
-          JAVA_HOME: ${{ steps.setup-java.outputs.path }}
-          PATH: ${{ steps.setup-java.outputs.path }}/bin:/usr/local/bin:$PATH
           LIQUIBASE_URL: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
           LIQUIBASE_USERNAME: "sa"
           LIQUIBASE_PASSWORD: "Trilok@786"
           LIQUIBASE_CHANGELOG: 'liquibase_demo/changelog.sql'
         run: |
-          liquibase --classpath=liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar --url=$LIQUIBASE_URL --username=$LIQUIBASE_USERNAME --password=$LIQUIBASE_PASSWORD --changeLogFile=$LIQUIBASE_CHANGELOG update
+          docker run --rm \
+            -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
+            -v ${{ github.workspace }}/liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar:/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
+            liquibase/liquibase:latest \
+            --url=$LIQUIBASE_URL \
+            --username=$LIQUIBASE_USERNAME \
+            --password=$LIQUIBASE_PASSWORD \
+            --changeLogFile=/liquibase/changelog/$LIQUIBASE_CHANGELOG \
+            --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
+            update
