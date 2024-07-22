@@ -43,4 +43,7 @@ jobs:
           tar -xvf liquibase-4.1.1-bin.tar.gz
           ./liquibase-4.1.1/liquibase --changeLogFile= /home/runner/work/Liquibase-demo/Liquibase-demo/changelog.sql update
         env:
-          LIQUIBASE_URL: jdbc:your_database_url 
+          LIQUIBASE_URL: "jdbc:sqlserver://52.140.6.193;databaseName=hary_test;encrypt=true;trustServerCertificate=true;"
+          LIQUIBASE_USERNAME: "sa"
+          LIQUIBASE_PASSWORD: "Trilok@786"
+
