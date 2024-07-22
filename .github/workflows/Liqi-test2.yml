@@ -22,18 +22,18 @@ jobs:
 
       - name: Run Liquibase Update
         env:
-          LIQUIBASE_URL: "jdbc:sqlserver://52.140.6.193;hary_test=HR;encrypt=true;trustServerCertificate=true;"
+          LIQUIBASE_URL: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
           LIQUIBASE_USERNAME: "sa"
           LIQUIBASE_PASSWORD: "Trilok@786"
-          LIQUIBASE_CHANGELOG: 'liquibase_demo/changelog.sql'
+          LIQUIBASE_CHANGELOG: 'Liquibase_demo/changelog.sql'
         run: |
           docker run --rm \
-            -v ${{ github.workspace }}/liquibase_demo/changelog.sql \
-            -v ${{ github.workspace }}/liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar:/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
+            -v ${{ github.workspace }}/Liquibase_demo:/liquibase/changelog \
+            -v ${{ github.workspace }}/Liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar:/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
             liquibase/liquibase:latest \
             --url=$LIQUIBASE_URL \
             --username=$LIQUIBASE_USERNAME \
             --password=$LIQUIBASE_PASSWORD \
-            --changeLogFile=/liquibase_demo/changelog.sql \
-            --classpath=/liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar \
+            --changeLogFile=/liquibase/changelog/$(basename $LIQUIBASE_CHANGELOG) \
+            --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
             update
