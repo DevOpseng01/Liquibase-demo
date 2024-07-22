@@ -1,4 +1,4 @@
-name: Liquibase Workflow 1
+name: Liquibase test
 
 on:
   push:
@@ -20,14 +20,24 @@ jobs:
           java-version: '11'
         id: setup-java
 
+      - name: Install Liquibase
+        run: |
+          wget https://github.com/liquibase/liquibase/releases/download/v4.13.0/liquibase-4.13.0.tar.gz
+          tar -xzf liquibase-4.13.0.tar.gz
+          sudo mv liquibase-4.13.0 /usr/local/liquibase
+          sudo ln -s /usr/local/liquibase/liquibase /usr/local/bin/liquibase
+
+      - name: Verify Liquibase Installation
+        run: |
+          liquibase --version
+
       - name: Run Liquibase Update
-        uses: liquibase/liquibase-github-action@v2
-        with:
-          operation: update
-          classpath: liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar
-          changeLogFile: liquibase_demo/changelog.sql
-          username: sa
-          password: Trilok@786
-          url: jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;
         env:
           JAVA_HOME: ${{ steps.setup-java.outputs.path }}
+          PATH: ${{ steps.setup-java.outputs.path }}/bin:/usr/local/bin:$PATH
+          LIQUIBASE_URL: "jdbc:sqlserver://localhost;databaseName=HR;encrypt=true;trustServerCertificate=true;"
+          LIQUIBASE_USERNAME: "sa"
+          LIQUIBASE_PASSWORD: "Trilok@786"
+          LIQUIBASE_CHANGELOG: 'liquibase_demo/changelog.sql'
+        run: |
+          liquibase --classpath=liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar --url=$LIQUIBASE_URL --username=$LIQUIBASE_USERNAME --password=$LIQUIBASE_PASSWORD --changeLogFile=$LIQUIBASE_CHANGELOG update
