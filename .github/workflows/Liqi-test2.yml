@@ -1,4 +1,4 @@
-name: Liquibase test
+name: Liquibase Workflow
 
 on:
   push:
@@ -24,7 +24,9 @@ jobs:
         run: |
           wget https://github.com/liquibase/liquibase/releases/download/v4.13.0/liquibase-4.13.0.tar.gz
           tar -xzf liquibase-4.13.0.tar.gz
-          sudo mv liquibase-4.13.0 /usr/local/liquibase
+          # Dynamically find the extracted directory
+          extracted_dir=$(tar -tzf liquibase-4.13.0.tar.gz | head -1 | cut -f1 -d"/")
+          sudo mv $extracted_dir /usr/local/liquibase
           sudo ln -s /usr/local/liquibase/liquibase /usr/local/bin/liquibase
 
       - name: Verify Liquibase Installation
