@@ -1,4 +1,4 @@
-name: Liquibase Workflow
+name: Liquibase Workflow 1
 
 on:
   push:
