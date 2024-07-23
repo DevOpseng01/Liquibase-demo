@@ -28,8 +28,8 @@ jobs:
         env:
           LIQUIBASE_URL: "jdbc:sqlserver://52.140.6.193;databaseName=hary_test;encrypt=true;trustServerCertificate=true;"
           LIQUIBASE_USERNAME: "sa"
-          LIQUIBASE_PASSWORD: 'Trilok@786'
-          LIQUIBASE_CHANGELOG: '/home/runner/work/Liquibase-demo/Liquibase-demo/Liquibase_demo/changelog.sql'
+          LIQUIBASE_PASSWORD: "Trilok@786"
+          LIQUIBASE_CHANGELOG: "/home/runner/work/Liquibase-demo/Liquibase-demo/Liquibase_demo/changelog.sql"
         run: |
           docker run --rm \
             -v ${{ github.workspace }}/Liquibase_demo/changelog.sql:/liquibase/changelog.sql \
@@ -39,5 +39,5 @@ jobs:
             --username=$LIQUIBASE_USERNAME \
             --password=$LIQUIBASE_PASSWORD \
             --changeLogFile=/liquibase/changelog/$(basename $LIQUIBASE_CHANGELOG) \
-            --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
+            # --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
             update
