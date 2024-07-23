@@ -38,6 +38,6 @@ jobs:
             --url=$LIQUIBASE_URL \
             --username=$LIQUIBASE_USERNAME \
             --password=$LIQUIBASE_PASSWORD \
-            --changeLogFile=/liquibase/changelog/$(basename $LIQUIBASE_CHANGELOG) \
+            --changeLogFile=/liquibase/changelog.sql \
             --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
             update
