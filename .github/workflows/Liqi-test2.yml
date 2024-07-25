@@ -44,10 +44,10 @@ jobs:
       - name: Run Liquibase Update
         run: |
           docker run --rm \
-            -v ${{ github.workspace }}/Liquibase_demo/changelog \
+            -v ${{ github.workspace }}/Liquibase_demo:/liquibase/changelog \
             liquibase/liquibase \
             --url="jdbc:sqlserver://52.140.6.193;databaseName=hary_test;encrypt=true;trustServerCertificate=true" \
             --username="sa" \
             --password="Trilok@786" \
-            --changeLogFile=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
+            --changeLogFile=/liquibase/changelog/changelog.sql \
             update
