@@ -41,8 +41,7 @@ jobs:
       #       update
       - name: Test Database Connection
         run: |
-          apt-get update
-          apt-get install -y freetds-bin
+          docker run --rm --network host dperson/freetds \
           tsql -H 52.140.6.193 -p 1433 -U sa -P Trilok@786 -D hary_test -C
 
       - name: Run Liquibase Update
