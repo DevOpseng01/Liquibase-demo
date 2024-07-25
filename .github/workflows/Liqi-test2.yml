@@ -39,11 +39,33 @@ jobs:
       #       --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
       #       update
 
-      - name: List Files in Mounted Directory
+      # - name: List Files in Mounted Directory
+      #   run: |
+      #     docker run \
+      #       -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
+      #       alpine sh -c "ls -R /liquibase/changelog && cat /liquibase/changelog/changelog.sql"
+
+      # - name: Run Liquibase Update
+      #   run: |
+      #     docker run \
+      #       -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
+      #       liquibase/liquibase \
+      #       --url="jdbc:sqlserver://52.140.6.193;databaseName=hary_test;encrypt=true;trustServerCertificate=true" \
+      #       --username="sa" \
+      #       --password="Trilok@786" \
+      #       --changeLogFile=/liquibase/changelog/changelog.sql \
+      #       update
+      - name: List Files in Mounted Directory with Alpine
         run: |
           docker run \
             -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
             alpine sh -c "ls -R /liquibase/changelog && cat /liquibase/changelog/changelog.sql"
+
+      - name: List Files in Mounted Directory with Liquibase
+        run: |
+          docker run \
+            -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
+            liquibase/liquibase sh -c "ls -R /liquibase/changelog && cat /liquibase/changelog/changelog.sql"
 
       - name: Run Liquibase Update
         run: |
