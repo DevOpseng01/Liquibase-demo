@@ -38,11 +38,6 @@ jobs:
       #       --changeLogFile=/liquibase/changelog.sql \
       #       --classpath=/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
       #       update
-      - name: Test Database Connection
-        run: |
-          docker run --rm --network host dperson/freetds \
-          tsql -H 52.140.6.193 -p 1433 -U sa -P Trilok@786 -D hary_test -C
-
       - name: Run Liquibase Update
         run: |
           docker run --rm \
