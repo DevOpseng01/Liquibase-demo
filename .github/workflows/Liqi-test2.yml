@@ -32,8 +32,6 @@ jobs:
           LIQUIBASE_CHANGELOG: "/home/runner/work/Liquibase-demo/Liquibase-demo/Liquibase_demo/changelog.sql"
         run: |
           docker run --rm \
-            # -v ${{ github.workspace }}/Liquibase_demo/changelog.sql:/liquibase/changelog.sql \
-            # -v ${{ github.workspace }}/Liquibase_demo/mssql-jdbc-12.7.0.jre11-preview.jar:/liquibase/mssql-jdbc-12.7.0.jre11-preview.jar \
             liquibase/liquibase:latest \
             --url=$LIQUIBASE_URL \
             --username=$LIQUIBASE_USERNAME \
