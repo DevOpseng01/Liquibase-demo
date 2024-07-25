@@ -1,5 +1,4 @@
 name: Liquibase Workflow
-
 on:
   push:
     branches:
