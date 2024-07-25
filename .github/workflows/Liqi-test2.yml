@@ -66,7 +66,13 @@ jobs:
           docker run \
             -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
             liquibase/liquibase sh -c "ls -R /liquibase/changelog && cat /liquibase/changelog/changelog.sql"
-
+            
+      - name: Verify Changelog File in Liquibase Container
+        run: |
+          docker run \
+            -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
+            liquibase/liquibase sh -c "if [ -f /liquibase/changelog/changelog.sql ]; then echo 'File exists'; else echo 'File does not exist'; fi"
+            
       - name: Run Liquibase Update
         run: |
           docker run \
