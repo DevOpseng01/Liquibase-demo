@@ -88,7 +88,7 @@ jobs:
           CONTAINER_ID=$(docker run -d liquibase/liquibase tail -f /dev/null)
 
           # Copy files from the mounted directory to the container
-          docker exec $CONTAINER_ID cp -r /${{ github.workspace }}/liquibase_demo/changelog.sql /liquibase/changelog
+          docker cp /${{ github.workspace }}/liquibase_demo/changelog.sql /liquibase/changelog
 
           # Run Liquibase update
           docker exec $CONTAINER_ID liquibase \
