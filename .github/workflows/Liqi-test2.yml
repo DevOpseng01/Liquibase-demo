@@ -75,11 +75,21 @@ jobs:
 
       - name: Run Liquibase Update
         run: |
-          docker run \
-            -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
-            liquibase/liquibase \
-            --url="jdbc:sqlserver://52.140.6.193;databaseName=hary_test;encrypt=true;trustServerCertificate=true;" \
-            --username="sa" \
-            --password="Trilok@786" \
+          # docker run \
+          #   -v ${{ github.workspace }}/liquibase_demo:/liquibase/changelog \
+          #   liquibase/liquibase \
+          #   --url="jdbc:sqlserver://52.140.6.193;databaseName=hary_test;encrypt=true;trustServerCertificate=true;" \
+          #   --username="sa" \
+          #   --password="Trilok@786" \
+          #   --changeLogFile=/liquibase/changelog/changelog.sql \
+          #   update
+
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            liquibase/liquibase sh -c "cp /workspace/liquibase_demo/changelog.sql /liquibase/changelog/ \
+            ls
+            --url='jdbc:sqlserver://52.140.6.193;databaseName=hary_test;encrypt=true;trustServerCertificate=true' \
+            --username='sa' \
+            --password='Trilok@786' \
             --changeLogFile=/liquibase/changelog/changelog.sql \
-            update
+            update"
